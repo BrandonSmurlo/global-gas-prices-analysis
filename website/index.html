@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Global Gas Prices Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #fafafa;
+      --ink: #111111;
+      --ink-light: #666666;
+      --rule: #e5e5e5;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.75;
+      font-size: 17px;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 120px 32px 80px;
+      max-width: 800px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .hero-sub {
+      color: var(--ink-light);
+      font-size: 1rem;
+      max-width: 560px;
+      margin-bottom: 48px;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      padding-top: 32px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .hero-meta-item label {
+      display: block;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 3px;
+    }
+
+    .hero-meta-item span {
+      font-size: 0.92rem;
+      font-weight: 500;
+    }
+
+    /* SECTIONS */
+    .section {
+      padding: 80px 32px;
+      max-width: 800px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 14px;
+    }
+
+    h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .section p {
+      color: var(--ink-light);
+      margin-bottom: 16px;
+      max-width: 640px;
+    }
+
+    .section p:last-of-type { margin-bottom: 0; }
+
+    /* STATS ROW */
+    .stats-row {
+      display: flex;
+      border: 1px solid var(--rule);
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .stat-cell {
+      flex: 1;
+      min-width: 120px;
+      padding: 24px;
+      border-right: 1px solid var(--rule);
+    }
+
+    .stat-cell:last-child { border-right: none; }
+
+    .stat-cell .num {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .stat-cell .lbl {
+      font-size: 0.75rem;
+      color: var(--ink-light);
+    }
+
+    /* CHART BLOCKS */
+    .chart-block { margin-top: 48px; }
+
+    .chart-block + .chart-block {
+      margin-top: 64px;
+      padding-top: 64px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .chart-block h3 {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+
+    .chart-caption {
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      margin-bottom: 20px;
+    }
+
+    .chart-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 1px solid var(--rule);
+    }
+
+    .chart-analysis {
+      margin-top: 16px;
+      font-size: 0.95rem;
+      color: var(--ink-light);
+      max-width: 640px;
+      line-height: 1.7;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 48px 32px;
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: var(--ink-light);
+      margin: 0;
+    }
+
+    /* FADE IN */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (max-width: 600px) {
+      .hero, .section, footer { padding-left: 20px; padding-right: 20px; }
+      .hero-meta { gap: 24px; }
+      .stat-cell { min-width: 100px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="hero-eyebrow">Statistics Project — Global Energy Markets</p>
+    <h1>What drives the price of gas around the world?</h1>
+    <p class="hero-sub">An analysis of global petrol prices from 2015 to present, exploring correlations with economic indicators, country-level differences, market volatility, and future price forecasting.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <label>Period</label>
+        <span>2015 – Present</span>
+      </div>
+      <div class="hero-meta-item">
+        <label>Records</label>
+        <span>5,860</span>
+      </div>
+      <div class="hero-meta-item">
+        <label>Source</label>
+        <span>Kaggle</span>
+      </div>
+      <div class="hero-meta-item">
+        <label>Tools</label>
+        <span>Python, Pandas, Matplotlib, Seaborn</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATASET -->
+  <div class="section fade-in">
+    <p class="section-label">01 — Dataset</p>
+    <h2>A decade of global fuel price data</h2>
+    <p>This analysis uses a cleaned dataset sourced from Kaggle covering weekly petrol, diesel, and natural gas prices across countries and regions from 2015 to present. Each record is paired with key economic indicators, making it possible to study not just what prices were, but why they moved.</p>
+    <p>The dataset includes GDP growth rate, inflation rate, exchange rate vs. USD, crude oil price, geopolitical risk index, supply and demand indices, subsidy levels, and fuel tax rates — giving a rich, multi-dimensional view of what shapes energy prices globally.</p>
+    <div class="stats-row">
+      <div class="stat-cell">
+        <span class="num">5,860</span>
+        <span class="lbl">Total records</span>
+      </div>
+      <div class="stat-cell">
+        <span class="num">22</span>
+        <span class="lbl">Variables</span>
+      </div>
+      <div class="stat-cell">
+        <span class="num">$1.44</span>
+        <span class="lbl">Min price / gallon</span>
+      </div>
+      <div class="stat-cell">
+        <span class="num">$6.06</span>
+        <span class="lbl">Max price / gallon</span>
+      </div>
+      <div class="stat-cell">
+        <span class="num">10yr</span>
+        <span class="lbl">Time span</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRENDS -->
+  <div class="section fade-in">
+    <p class="section-label">02 — Price Trends</p>
+    <h2>How global petrol prices have shifted over a decade</h2>
+    <p>Looking at the monthly average of petrol prices across all countries reveals clear macro-level events that shook global energy markets.</p>
+    <div class="chart-block">
+      <h3>Average Global Petrol Price Over Time</h3>
+      <p class="chart-caption">Monthly average petrol price in USD per liter, aggregated across all countries.</p>
+      <img class="chart-img" src="charts/price_trends_monthly.png" alt="Monthly average global petrol price over time">
+      <p class="chart-analysis">Write your analysis here.</p>
+    </div>
+  </div>
+
+  <!-- CORRELATIONS -->
+  <div class="section fade-in">
+    <p class="section-label">03 — Correlations</p>
+    <h2>Which economic indicators actually move the needle?</h2>
+    <p>A correlation heatmap shows at a glance how strongly petrol prices relate to each economic variable. Values close to 1 or -1 indicate a strong relationship; values near 0 suggest little connection.</p>
+    <div class="chart-block">
+      <h3>Correlation Heatmap — Petrol Price vs. Economic Indicators</h3>
+      <p class="chart-caption">Pairwise Pearson correlation coefficients between petrol price and key economic variables.</p>
+      <img class="chart-img" src="charts/correlation_heatmap.png" alt="Correlation heatmap">
+      <p class="chart-analysis">Write your analysis here.</p>
+    </div>
+  </div>
+
+  <!-- VOLATILITY -->
+  <div class="section fade-in">
+    <p class="section-label">04 — Volatility</p>
+    <h2>Measuring the instability of global fuel markets</h2>
+    <p>Price volatility — how much prices swing up and down — is just as important as price levels. High volatility makes it harder for governments, businesses, and consumers to plan ahead.</p>
+    <div class="chart-block">
+      <h3>28-Day Rolling Volatility of Petrol Prices</h3>
+      <p class="chart-caption">Rolling standard deviation of petrol prices over a 28-day window.</p>
+      <img class="chart-img" src="charts/volatility.png" alt="Petrol price volatility over time">
+      <p class="chart-analysis">Write your analysis here.</p>
+    </div>
+  </div>
+
+  <!-- COMPARISONS -->
+  <div class="section fade-in">
+    <p class="section-label">05 — Country Comparisons</p>
+    <h2>Why do prices differ so much between countries?</h2>
+    <p>The same barrel of crude oil produces vastly different pump prices across the world. Fuel taxes, subsidies, currency strength, and geopolitical stability all shape what consumers pay.</p>
+    <div class="chart-block">
+      <h3>10 Cheapest vs. 10 Most Expensive Countries for Petrol</h3>
+      <p class="chart-caption">Average petrol price by country across the full dataset.</p>
+      <img class="chart-img" src="charts/country_comparison.png" alt="Country comparison of petrol prices">
+      <p class="chart-analysis">Write your analysis here.</p>
+    </div>
+    <div class="chart-block">
+      <h3>Petrol Price vs. Crude Oil Price</h3>
+      <p class="chart-caption">Scatter plot showing the relationship between crude oil and petrol prices across all records.</p>
+      <img class="chart-img" src="charts/petrol_vs_crude.png" alt="Petrol price vs crude oil price">
+      <p class="chart-analysis">Write your analysis here.</p>
+    </div>
+  </div>
+
+  <!-- FORECAST -->
+  <div class="section fade-in">
+    <p class="section-label">06 — Forecasting</p>
+    <h2>What might fuel prices look like in the future?</h2>
+    <p>Using historical price trends, a linear regression model projects where petrol prices may be headed. The shaded area represents growing uncertainty further into the future.</p>
+    <div class="chart-block">
+      <h3>Petrol Price Forecast — 2 Year Projection</h3>
+      <p class="chart-caption">Projected petrol prices based on historical trend analysis using linear regression.</p>
+      <img class="chart-img" src="charts/forecast.png" alt="Petrol price forecast">
+      <p class="chart-analysis">Write your analysis here.</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>Global Gas Prices Analysis — Statistics Project</p>
+    <p>Data: Kaggle &nbsp;·&nbsp; Built with Python, Pandas, Matplotlib & Seaborn</p>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
